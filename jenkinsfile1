@@ -1,14 +1,18 @@
 pipeline{
-    agent any 
+    agent{
+        label "node"
+    }
     stages{
-        stage("A"){
+        stage(" printing msg"){
             steps{
-                echo "========executing A========"
+                echo 'hi how are you?'
             }
         }
         stage("b"){
             steps{
-                echo "========executing b========"
+                sh '''pwd
+                      ls
+                      cal 2022'''
             }
         }
         stage("c"){
@@ -18,7 +22,7 @@ pipeline{
         }
         stage("d"){
             steps{
-                echo "========executing d========"
+                input 'continue'
             }
         }
     }
