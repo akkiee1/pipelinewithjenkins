@@ -1,1 +1,59 @@
-echo "hi jenkins"
+pipeline {
+    agent any
+    environment {
+        name = 'demouser'
+    }
+    parameters {
+        string(name: 'person', defaultValue:  'akash rajput', description: "who are you?")
+        booleanParam(name:  'ismale', defaultValue: true, description: "")
+         choice(name:  'City', choices: ['jaipur', 'mumbai', 'pune'], description: "")
+    }
+
+    stages {
+        stage('Run a command') {
+            steps {
+                sh '''
+                ls
+                date
+                pwd
+                '''
+            }
+        }
+        stage('Environment Variable') {
+            environment {
+                username = 'myusername'
+            }
+            steps {
+                sh 'echo "$BUILD_ID"'
+                sh 'echo "${name}"'
+                sh 'echo "${username}"'
+            }
+        }
+        stage('parameters') {
+            steps {
+                echo 'deploy on test'
+                sh 'echo "${name}"'
+                sh 'echo "${person}"'
+            }
+        }
+        stage('Continue ?') {
+            input {
+                message "should we continue?"
+                ok "yes we should"
+            }
+            steps {
+                echo 'Hello Prod'
+            }
+        }
+        stage('Deploy pod ?') {
+            input {
+                message "should we continue?"
+                ok "yes we should"
+            }
+            steps {
+                echo 'Hello Prod'
+            }
+        }
+        
+    }
+}
